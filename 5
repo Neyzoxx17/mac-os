@@ -1,0 +1,2 @@
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.bird.plist 2>/dev/null; killall -9 bird clouddocs siriactionsd 2>/dev/null; rm -rf ~/Library/Application\ Support/CloudDocs ~/Library/Caches/com.apple.bird; killall bird
+sudo launchctl kickstart -k system/com.apple.bird
