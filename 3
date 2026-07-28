@@ -1,0 +1,11 @@
+# 1. Arrêter le service iCloud
+killall bird clouddocs
+
+# 2. Supprimer la base de données de synchronisation corrompue
+rm -rf ~/Library/Application\ Support/CloudDocs
+
+# 3. Relancer le service
+killall bird
+
+
+diskutil resetUserPermissions / `id -u`
