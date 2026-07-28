@@ -1,0 +1,44 @@
+python3 -c "
+import subprocess
+
+# Lire le fichier
+with open('/Volumes/OPENCORE/EFI/OC/config.plist', 'r') as f:
+    content = f.read()
+
+# Valeurs à insérer
+replacements = {
+    '<key>MLB</key>\n\t<string></string>': '<key>MLB</key>\n\t<string>C02935400GUGJ9FA5</string>',
+    '<key>SystemProductName</key>\n\t<string></string>': '<key>SystemProductName</key>\n\t<string>iMac20,1</string>',
+    '<key>SystemSerialNumber</key>\n\t<string></string>': '<key>SystemSerialNumber</key>\n\t<string>C02X0YHZJHD3</string>',
+    '<key>SystemUUID</key>\n\t<string></string>': '<key>SystemUUID</key>\n\t<string>564D3E57-1234-5678-9ABC-DEF012345678</string>',
+}
+
+for old, new in replacements.items():
+    content = content.replace(old, new)
+
+# ProcessorType: remplacer les deux occurrences (0 -> 1537 dans Generic)
+import re
+# Premier: dans Generic
+count = 0
+def replace_processor(m):
+    global count
+    count += 1
+    if count == 1:
+        return '<key>ProcessorType</key>\n\t<integer>1537</integer>'
+    return m.group(0)
+
+content = re.sub(r'<key>ProcessorType</key>\n\t<integer>0</integer>', replace_processor, content)
+
+# Backup puis écrire
+import shutil
+shutil.copy('/Volumes/OPENCORE/EFI/OC/config.plist', '/Volumes/OPENCORE/EFI/OC/config.plist.bak2')
+
+with open('/Volumes/OPENCORE/EFI/OC/config.plist', 'w') as f:
+    f.write(content)
+
+print('OK ! Fichier mis à jour.')
+print()
+print('Vérification :')
+import subprocess
+subprocess.run(['grep', '-A1', '-E', 'SystemProductName|MLB|SystemSerialNumber|SystemUUID|ProcessorType', '/Volumes/OPENCORE/EFI/OC/config.plist'])
+"
