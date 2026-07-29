@@ -1,0 +1,21 @@
+# Désactiver les animations
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+defaults write -g QLPanelAnimationDuration -float 0
+defaults write com.apple.dock launchanim -bool false
+defaults write com.apple.dock expose-animation-duration -float 0.1
+defaults write com.apple.finder DisableAllAnimations -bool true
+
+# Désactiver transparency (System Settings > Accessibility > Display)
+defaults write com.apple.universalaccess reduceTransparency -bool true
+
+# Réduire le motion
+defaults write com.apple.universalaccess reduceMotion -bool true
+
+# Désactiver Spotlight indexing
+sudo mdutil -i off /
+
+# Désactiver Siri
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+
+# Désactiver les notifications push
+defaults write com.apple.notificationcenterui allowNoopDismiss -bool true
