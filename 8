@@ -1,1 +1,3 @@
 ls -la ~/Library/Logs/DiagnosticReports/
+log show --predicate 'processImagePath CONTAINS "Safari" AND (messageType == error OR messageType == fault)' --last 2h
+log show --predicate '(process CONTAINS "Wallpaper" OR process == "Dock") AND (messageType == error OR messageType == fault)' --last 2h
